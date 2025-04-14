@@ -20,16 +20,17 @@ export class CdkCicdStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props: pipelineProps) {
     super(scope, id, props);
 
-    const pipeline = new CodePipeline(this, 'myCodePipelineAwsCdk', {
+    const pipeline = new CodePipeline(this, 'CdkCicdStack', {
       pipelineName: 'cdk-code-pipeline',
       synth: new ShellStep('myShellStep', {
-        input: CodePipelineSource.gitHub('SwaroopWork/demopipeline9408', 'main'),
+        input: CodePipelineSource.gitHub('SwaroopWork/aws-cdk', 'main'),
         commands: [
           'npm ci',
           'npm run build',
           'npx cdk synth'
         ]
       })
+      
     });
 
     pipeline.addStage(new PipelineStage(this, 'TestStage', {
